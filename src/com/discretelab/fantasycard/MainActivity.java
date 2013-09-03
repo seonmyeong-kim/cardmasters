@@ -21,7 +21,6 @@ public class MainActivity extends Activity {
 	private TextView mtxtTurnCnt;
 	private TextView mtxtManaCnt;
 	private TextView mtxtLifeCnt;
-	private int count;
 	
 	private ImageView[] mImgMyCard = new ImageView[3];
 	
