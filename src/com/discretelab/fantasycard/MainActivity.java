@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
         mySlotView.addView(mtxtTurnCnt);
         
 		RelativeLayout.LayoutParams turnparams = (RelativeLayout.LayoutParams) mtxtTurnCnt.getLayoutParams();
-		mtxtTurnCnt.setLayoutParams(UILayoutParams.changeMargin(turnparams, new Rect(10, 45, 10, 35)));
+		mtxtTurnCnt.setLayoutParams(UILayoutParams.changeMargin(turnparams, new Rect(10, 5, 10, 35)));
 
 		///ManaCount初期化
 		mtxtManaCnt = new TextView(this);
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 		mySlotView.addView(mtxtManaCnt);
         
 		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtManaCnt.getLayoutParams();
-		mtxtManaCnt.setLayoutParams(UILayoutParams.changeMargin(manaparams, new Rect(100, 45, 10, 35)));
+		mtxtManaCnt.setLayoutParams(UILayoutParams.changeMargin(manaparams, new Rect(100, 5, 10, 35)));
 		
 		///LifeCount初期化
 		mtxtLifeCnt = new TextView(this);
@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
         mySlotView.addView(mtxtLifeCnt);
         
 		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtLifeCnt.getLayoutParams();
-		mtxtLifeCnt.setLayoutParams(UILayoutParams.changeMargin(lifeparams, new Rect(210, 45, 10, 35)));
+		mtxtLifeCnt.setLayoutParams(UILayoutParams.changeMargin(lifeparams, new Rect(210, 5, 10, 35)));
         
 		mDeckManager = new DeckManager();
 		mDeckManager.init();
