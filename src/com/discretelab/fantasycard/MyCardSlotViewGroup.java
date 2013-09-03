@@ -1,11 +1,13 @@
 package com.discretelab.fantasycard;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MyCardSlotViewGroup  extends RelativeLayout{
 
@@ -31,4 +33,16 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
 		this.addView(iv, params);
 	}
 	
+	public void addTextView(TextView tv, Rect rect){
+		tv.setId(this.getChildCount() + 1);
+		tv.setTextColor(Color.rgb(246, 196, 5));
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
+                (ViewGroup.LayoutParams.WRAP_CONTENT,
+                  ViewGroup.LayoutParams.WRAP_CONTENT);
+		
+		params = UILayoutParams.wrapRect(params, rect);
+		
+		this.addView(tv, params);
+	}
 }
