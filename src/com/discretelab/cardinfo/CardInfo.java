@@ -7,4 +7,5 @@ public class CardInfo {
 	public int attackpoint;
 	public int defensepoint;
 	public int lifepoint;
+	
 }
