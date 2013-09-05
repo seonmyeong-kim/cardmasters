@@ -11,6 +11,7 @@ public class DeckManager {
 	public void init() {
 		initTestLib();
 		mDeck = suffleDeck(mDeck);
+		
 	}
 	
 	public void initTestLib() {
