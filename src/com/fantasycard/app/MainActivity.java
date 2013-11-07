@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+	
 	private MyCardSlotViewGroup mySlotView;
 	private DeckManager mDeckManager;
 	
