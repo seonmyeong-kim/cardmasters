@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -18,6 +19,20 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
         
         mContext = context;
     }
+	
+	public void addImgViewToMyCardSlot(int cardslot, CardView cardview) {
+		addView(cardview);
+
+		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
+		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(14 + (cardslot*90), 230, 70, 90)));
+	}
+	
+	public void addImgViewToMyHand(int cardslot, CardView cardview) {
+		addView(cardview);
+
+		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
+		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(12 + (cardslot*90), 430, 70, 90)));
+	}
 
 	public void addImgView(int resId, Rect rect){
 		ImageView iv = new ImageView(mContext);

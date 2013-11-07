@@ -2,13 +2,26 @@ package com.fantasycard.app;
 
 import com.fantasycard.app.R;
 import com.fantasycard.cardinfo.CardInfo;
+import com.fantasycard.ui.CardDragListener;
+import com.fantasycard.ui.CardTouchListener;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.DragShadowBuilder;
+import android.view.View.OnDragListener;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +30,12 @@ public class MainActivity extends Activity {
 	private MyCardSlotViewGroup mySlotView;
 	private DeckManager mDeckManager;
 	
-	private CardInfo[] mMyHands = new CardInfo[3];
+	public static CardInfo[] mMyHands = new CardInfo[3];
+	public static CardView[] mMyHandsCardView = new CardView[3];
+	public int mSelectCard;
+	
+	public static CardInfo[] mMyCardSlots = new CardInfo[3];
+	public static CardView[] mMyCardSlotsView = new CardView[3];
 	
 	private TextView mtxtTurnCnt;
 	private TextView mtxtManaCnt;
@@ -82,6 +100,30 @@ public class MainActivity extends Activity {
 		mDeckManager.init();
 		
 		firstDrawCard();
+		
+		mMyHandsCardView[0].setOnTouchListener(new CardTouchListener(this, 1));
+		mMyHandsCardView[1].setOnTouchListener(new CardTouchListener(this, 2));
+		mMyHandsCardView[2].setOnTouchListener(new CardTouchListener(this, 3));
+	    findViewById(R.id.cardslot01).setOnDragListener(new CardDragListener(this, 1));
+	    findViewById(R.id.cardslot02).setOnDragListener(new CardDragListener(this, 2));
+	    findViewById(R.id.cardslot03).setOnDragListener(new CardDragListener(this, 3));
+	}
+	
+	public CardInfo getCardInfoFromSelectCardSlot() {
+		return mMyHands[mSelectCard];
+	}
+	
+	public CardInfo getCardInfoFromCardView(CardView view) {
+		for(int i=0;i<3;i++) {
+			if(mMyHandsCardView[i] == view) {
+				return mMyHands[i];
+			}
+		}
+		return null;
+	}
+	
+	public void selectCardSlot(int cardslot){
+		mSelectCard = cardslot;
 	}
 	
 	private void firstDrawCard(){
@@ -89,7 +131,7 @@ public class MainActivity extends Activity {
 			for(int i=0;i<3;i++){
 				if(mMyHands[i] == null){
 					mMyHands[i] = mDeckManager.getCardFromDeck();
-					drawCardImgToMyHand(i, mMyHands[i]);
+					mMyHandsCardView[i] = drawCardImgMyHand(i, mMyHands[i]);
 				}
 			}
 			
@@ -113,12 +155,33 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	private void drawCardImgToMyHand(int idx, CardInfo cardinfo){
+	private CardView drawCardImgMyHand(int idx, CardInfo cardinfo){
 		CardView cardImgView = getCardImageView(cardinfo);
-		mySlotView.addView(cardImgView);
+		mySlotView.addImgViewToMyHand(idx, cardImgView);
 
-		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardImgView.getLayoutParams();
-		cardImgView.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(12 + (idx*90), 430, 70, 90)));
+		return cardImgView;
+	}
+	
+	public void dropCardToMyCardSlot() {
+		Log.d("Premo","dropCardToMyCardSlot() ENTRY");
+		for(int i=0;i<3;i++) {
+			if(mMyCardSlots[i] == null) {
+				mMyCardSlots[i] = mMyHands[mSelectCard-1];
+				mMyCardSlotsView[i] = mMyHandsCardView[mSelectCard-1];
+				mySlotView.removeView(mMyCardSlotsView[i]);
+				Log.d("Premo","dropCardToMyCardSlot() i = " + i);
+				mySlotView.addImgViewToMyCardSlot(i, mMyCardSlotsView[i]);
+			    final View droppedView = mMyCardSlotsView[i];
+			    droppedView.post(new Runnable(){
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+				        droppedView.setVisibility(View.VISIBLE);
+					}
+			    });
+				break;
+			}
+		}
 	}
 	
 	private CardView getCardImageView(CardInfo cardinfo) {
@@ -180,7 +243,7 @@ public class MainActivity extends Activity {
         float dp = px / getResources().getDisplayMetrics().density;
 		if(dp > 720 ){
 			UILayoutParams.SCALED_DENSITY = (float) ((720f / 320f) * metrics.scaledDensity);
-		}else{
+		} else {
 			UILayoutParams.SCALED_DENSITY = (float) (dp / 320) * metrics.scaledDensity;
 		}
 	}
