@@ -118,8 +118,16 @@ public class DeckManager {
 		}
 	}
 	
-	public CardInfo getCardfromDeck(){
+	public CardInfo getCardFromDeck() {
 		return mDeck.remove(mDeck.size() - 1);
+	}
+	
+	public void putCardToDeck(CardInfo cardinfo) {
+		mDeck.add(cardinfo);
+	}
+	
+	public void suffleDeck() {
+		mDeck = suffleDeck(mDeck);
 	}
 	
 	public ArrayList<CardInfo> suffleDeck(ArrayList<CardInfo> library) {

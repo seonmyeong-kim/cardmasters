@@ -22,7 +22,9 @@ public class MainActivity extends Activity {
 	private TextView mtxtManaCnt;
 	private TextView mtxtLifeCnt;
 	
-	private ImageView[] mImgMyCard = new ImageView[3];
+	private int mTurn;
+	private int mPlayerMana;
+	private int mPlayerLife;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,14 @@ public class MainActivity extends Activity {
 		
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
 		
+		mTurn = 0;
+		mPlayerMana = 0;
+		mPlayerLife = 10;
+		
 		///TurnCount初期化
 		mtxtTurnCnt = new TextView(this);
 		mtxtTurnCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtTurnCnt.setText("Turn : 0");
+		mtxtTurnCnt.setText("Turn : " + mTurn);
         mySlotView.addView(mtxtTurnCnt);
         
 		RelativeLayout.LayoutParams turnparams = (RelativeLayout.LayoutParams) mtxtTurnCnt.getLayoutParams();
@@ -56,7 +62,7 @@ public class MainActivity extends Activity {
 		///ManaCount初期化
 		mtxtManaCnt = new TextView(this);
 		mtxtManaCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtManaCnt.setText("Mana : 0");
+		mtxtManaCnt.setText("Mana : " + mPlayerMana);
 		mySlotView.addView(mtxtManaCnt);
         
 		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtManaCnt.getLayoutParams();
@@ -65,7 +71,7 @@ public class MainActivity extends Activity {
 		///LifeCount初期化
 		mtxtLifeCnt = new TextView(this);
 		mtxtLifeCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtLifeCnt.setText("Life : 0");
+		mtxtLifeCnt.setText("Life : " + mPlayerLife);
         mySlotView.addView(mtxtLifeCnt);
         
 		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtLifeCnt.getLayoutParams();
@@ -74,57 +80,78 @@ public class MainActivity extends Activity {
 		mDeckManager = new DeckManager();
 		mDeckManager.init();
 		
-		drawCard();
+		firstDrawCard();
 	}
 	
-	private void drawCard(){
-		for(int i=0;i<3;i++){
-			if(mMyHands[i] == null){
-				mMyHands[i] = mDeckManager.getCardfromDeck();
-				
-				ImageView cardImgView = getCardImageView(mMyHands[i]);
-				mySlotView.addView(cardImgView);
-
-				RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) cardImgView.getLayoutParams();
-				cardImgView.setLayoutParams(UILayoutParams.changeRect(lifeparams, new Rect(12 + (i*90), 430, 70, 90)));
-				
-				mImgMyCard[i] = cardImgView;
+	private void firstDrawCard(){
+		while(true){
+			for(int i=0;i<3;i++){
+				if(mMyHands[i] == null){
+					mMyHands[i] = mDeckManager.getCardFromDeck();
+					drawCardImgToMyHand(i, mMyHands[i]);
+				}
+			}
+			
+			boolean isManaCardExist = false;
+			
+			for(int i=0;i<3;i++){
+				if(mMyHands[i].card_category == AppValues.CARD_MANA){
+					isManaCardExist = true;
+					break;
+				}
+			}
+			
+			if(isManaCardExist) {
+				break;
+			} else {
+				for(int i=0;i<3;i++) {
+					mDeckManager.putCardToDeck(mMyHands[i]);
+				}
+				mDeckManager.suffleDeck();
 			}
 		}
 	}
 	
-	private ImageView getCardImageView(CardInfo cardinfo) {
-		ImageView cardimg = new ImageView(this);
+	private void drawCardImgToMyHand(int idx, CardInfo cardinfo){
+		CardView cardImgView = getCardImageView(cardinfo);
+		mySlotView.addView(cardImgView);
+
+		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardImgView.getLayoutParams();
+		cardImgView.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(12 + (idx*90), 430, 70, 90)));
+	}
+	
+	private CardView getCardImageView(CardInfo cardinfo) {
+		CardView cardimg = new CardView(this);
 		switch(cardinfo.card_id){
 			case 1:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.element1));
+				cardimg.setBitmap(R.drawable.element1);
 				break;
 			case 2:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.element2));
+				cardimg.setBitmap(R.drawable.element2);
 				break;
 			case 3:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.element3));
+				cardimg.setBitmap(R.drawable.element3);
 				break;
 			case 4:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_1_1));
+				cardimg.setBitmap(R.drawable.card_1_1);
 				break;
 			case 5:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_1_2));
+				cardimg.setBitmap(R.drawable.card_1_2);
 				break;
 			case 6:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_1_3));
+				cardimg.setBitmap(R.drawable.card_1_3);
 				break;
 			case 7:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_2_1));
+				cardimg.setBitmap(R.drawable.card_2_1);
 				break;
 			case 8:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_2_2));
+				cardimg.setBitmap(R.drawable.card_2_2);
 				break;
 			case 9:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_2_3));
+				cardimg.setBitmap(R.drawable.card_2_3);
 				break;
 			case 10:
-				cardimg.setBackgroundDrawable(getResources().getDrawable(R.drawable.card_3_1));
+				cardimg.setBitmap(R.drawable.card_3_1);
 				break;
 		}
 		
