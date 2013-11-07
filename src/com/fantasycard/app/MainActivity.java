@@ -1,6 +1,7 @@
-package com.discretelab.fantasycard;
+package com.fantasycard.app;
 
-import com.discretelab.cardinfo.CardInfo;
+import com.fantasycard.app.R;
+import com.fantasycard.cardinfo.CardInfo;
 
 import android.app.Activity;
 import android.graphics.Color;

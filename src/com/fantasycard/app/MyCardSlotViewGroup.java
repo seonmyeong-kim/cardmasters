@@ -1,4 +1,4 @@
-package com.discretelab.fantasycard;
+package com.fantasycard.app;
 
 import android.content.Context;
 import android.graphics.Color;

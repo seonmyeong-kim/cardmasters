@@ -1,9 +1,9 @@
-package com.discretelab.fantasycard;
+package com.fantasycard.app;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.discretelab.cardinfo.CardInfo;
+import com.fantasycard.cardinfo.CardInfo;
 
 public class DeckManager {
 	private ArrayList<CardInfo> mDeck = new ArrayList<CardInfo>();

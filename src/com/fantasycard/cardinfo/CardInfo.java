@@ -1,4 +1,4 @@
-package com.discretelab.cardinfo;
+package com.fantasycard.cardinfo;
 
 public class CardInfo {
 	public int card_id;

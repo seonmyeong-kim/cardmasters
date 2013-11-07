@@ -1,4 +1,4 @@
-package com.discretelab.fantasycard;
+package com.fantasycard.app;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
