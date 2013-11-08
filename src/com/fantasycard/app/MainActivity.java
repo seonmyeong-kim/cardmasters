@@ -38,6 +38,9 @@ public class MainActivity extends Activity {
 	public static CardInfo[] mMyCardSlots = new CardInfo[3];
 	public static CardView[] mMyCardSlotsView = new CardView[3];
 	
+	public RelativeLayout[] mHandCardFrame = new RelativeLayout[3];
+	public RelativeLayout[] mSlotCardFrame = new RelativeLayout[3];
+	
 	private TextView mtxtTurnCnt;
 	private TextView mtxtManaCnt;
 	private TextView mtxtLifeCnt;
@@ -65,6 +68,14 @@ public class MainActivity extends Activity {
 		appOnAttachedToWindow();
 		
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
+		
+		mHandCardFrame[0] = (RelativeLayout) findViewById(R.id.mycardslot01);
+		mHandCardFrame[1] = (RelativeLayout) findViewById(R.id.mycardslot02);
+		mHandCardFrame[2] = (RelativeLayout) findViewById(R.id.mycardslot03);
+		
+		mSlotCardFrame[0] = (RelativeLayout) findViewById(R.id.cardslot01);
+		mSlotCardFrame[1] = (RelativeLayout) findViewById(R.id.cardslot02);
+		mSlotCardFrame[2] = (RelativeLayout) findViewById(R.id.cardslot03);
 		
 		mTurn = 0;
 		mPlayerMana = 0;
@@ -169,14 +180,17 @@ public class MainActivity extends Activity {
 			if(mMyCardSlots[i] == null) {
 				mMyCardSlots[i] = mMyHands[mSelectCard-1];
 				mMyCardSlotsView[i] = mMyHandsCardView[mSelectCard-1];
-				mySlotView.removeView(mMyCardSlotsView[i]);
+				//mySlotView.removeView(mMyCardSlotsView[i]);
+				for (int j = 0; j < 3; j++) {
+					mHandCardFrame[j].removeView(mMyCardSlotsView[i]);
+				}
+				
 				Log.d("Premo","dropCardToMyCardSlot() i = " + i);
 				mySlotView.addImgViewToMyCardSlot(i, mMyCardSlotsView[i]);
 			    final View droppedView = mMyCardSlotsView[i];
 			    droppedView.post(new Runnable(){
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
 				        droppedView.setVisibility(View.VISIBLE);
 					}
 			    });
