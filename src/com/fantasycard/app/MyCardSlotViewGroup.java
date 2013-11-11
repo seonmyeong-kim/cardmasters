@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,22 +18,21 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
 	
 	public MyCardSlotViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
         mContext = context;
     }
 	
 	public void addImgViewToMyCardSlot(int cardslot, CardView cardview) {
-		addView(cardview);
-
+		((MainActivity)mContext).mSlotCardFrame[cardslot].addView(cardview);
 		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
-		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(14 + (cardslot*90), 230, 70, 90)));
+		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
+		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 70, 90)));
 	}
 	
 	public void addImgViewToMyHand(int cardslot, CardView cardview) {
-		addView(cardview);
-
+		((MainActivity)mContext).mHandCardFrame[cardslot].addView(cardview);
 		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
-		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(12 + (cardslot*90), 430, 70, 90)));
+		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
+		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 70, 90)));
 	}
 
 	public void addImgView(int resId, Rect rect){
