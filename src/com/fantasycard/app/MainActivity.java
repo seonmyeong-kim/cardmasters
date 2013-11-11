@@ -41,6 +41,8 @@ public class MainActivity extends Activity {
 	public RelativeLayout[] mHandCardFrame = new RelativeLayout[3];
 	public RelativeLayout[] mSlotCardFrame = new RelativeLayout[3];
 	
+	public LinearLayout dropArea;
+	
 	private TextView mtxtTurnCnt;
 	private TextView mtxtManaCnt;
 	private TextView mtxtLifeCnt;
@@ -67,6 +69,8 @@ public class MainActivity extends Activity {
 		setDensity();
 		appOnAttachedToWindow();
 		
+		dropArea = (LinearLayout) findViewById(R.id.drop_area); 
+				
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
 		
 		mHandCardFrame[0] = (RelativeLayout) findViewById(R.id.mycardslot01);
@@ -113,12 +117,11 @@ public class MainActivity extends Activity {
 		
 		firstDrawCard();
 		
-		mMyHandsCardView[0].setOnTouchListener(new CardTouchListener(this, 1));
-		mMyHandsCardView[1].setOnTouchListener(new CardTouchListener(this, 2));
-		mMyHandsCardView[2].setOnTouchListener(new CardTouchListener(this, 3));
-	    findViewById(R.id.cardslot01).setOnDragListener(new CardDragListener(this, 1));
-	    findViewById(R.id.cardslot02).setOnDragListener(new CardDragListener(this, 2));
-	    findViewById(R.id.cardslot03).setOnDragListener(new CardDragListener(this, 3));
+		mMyHandsCardView[0].setOnTouchListener(new CardTouchListener(this, 0));
+		mMyHandsCardView[1].setOnTouchListener(new CardTouchListener(this, 1));
+		mMyHandsCardView[2].setOnTouchListener(new CardTouchListener(this, 2));
+		
+		dropArea.setOnDragListener(new CardDragListener(this, dropArea));
 	}
 	
 	public CardInfo getCardInfoFromSelectCardSlot() {
@@ -174,28 +177,58 @@ public class MainActivity extends Activity {
 		return cardImgView;
 	}
 	
-	public void dropCardToMyCardSlot() {
+	public void moveHandToSlot(int fromCardNum,int targetSlotNum){
+		mMyCardSlots[targetSlotNum] = mMyHands[fromCardNum];
+		mMyCardSlotsView[targetSlotNum] = mMyHandsCardView[fromCardNum];
+		mHandCardFrame[fromCardNum].removeView(mMyCardSlotsView[targetSlotNum]);
+		
+		mySlotView.addImgViewToMyCardSlot(targetSlotNum, mMyCardSlotsView[targetSlotNum]);
+	    final View droppedView = mMyCardSlotsView[targetSlotNum];
+	    droppedView.post(new Runnable(){
+			@Override
+			public void run() {
+		        droppedView.setVisibility(View.VISIBLE);
+			}
+	    });
+	}
+	
+	public void moveSlotToSlot(int fromSlotNum,int targetSlotNum){
+		if (mMyCardSlotsView[targetSlotNum] != null) {
+			moveSlotToSlot(fromSlotNum+1,targetSlotNum+1);
+		}
+		mMyCardSlots[targetSlotNum] = mMyCardSlots[fromSlotNum];
+		mMyCardSlotsView[targetSlotNum] = mMyCardSlotsView[fromSlotNum];
+		mSlotCardFrame[fromSlotNum].removeView(mMyCardSlotsView[fromSlotNum]);
+		mySlotView.addImgViewToMyCardSlot(targetSlotNum, mMyCardSlotsView[targetSlotNum]);
+	    final View droppedView = mMyCardSlotsView[targetSlotNum];
+	    droppedView.post(new Runnable(){
+			@Override
+			public void run() {
+		        droppedView.setVisibility(View.VISIBLE);
+			}
+	    });
+		
+		
+	}
+	
+	public void dropCardToMyCardSlot(int slotNum) {
 		Log.d("Premo","dropCardToMyCardSlot() ENTRY");
+		int emptySlot = -1;
 		for(int i=0;i<3;i++) {
 			if(mMyCardSlots[i] == null) {
-				mMyCardSlots[i] = mMyHands[mSelectCard-1];
-				mMyCardSlotsView[i] = mMyHandsCardView[mSelectCard-1];
-				//mySlotView.removeView(mMyCardSlotsView[i]);
-				for (int j = 0; j < 3; j++) {
-					mHandCardFrame[j].removeView(mMyCardSlotsView[i]);
-				}
-				
-				Log.d("Premo","dropCardToMyCardSlot() i = " + i);
-				mySlotView.addImgViewToMyCardSlot(i, mMyCardSlotsView[i]);
-			    final View droppedView = mMyCardSlotsView[i];
-			    droppedView.post(new Runnable(){
-					@Override
-					public void run() {
-				        droppedView.setVisibility(View.VISIBLE);
-					}
-			    });
+				emptySlot = i;
 				break;
 			}
+		}
+		if(emptySlot != -1) {
+			if (mMyCardSlots[slotNum] == null) {
+				moveHandToSlot(mSelectCard,emptySlot);
+			}else {
+				moveSlotToSlot(slotNum,slotNum+1);
+				moveHandToSlot(mSelectCard,slotNum);
+			}
+		}else {
+			
 		}
 	}
 	

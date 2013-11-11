@@ -18,7 +18,6 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
 	
 	public MyCardSlotViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
-        
         mContext = context;
     }
 	

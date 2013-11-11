@@ -122,11 +122,11 @@
 	    </LinearLayout>
 	
 	    <LinearLayout
+	        android:id="@+id/drop_area"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_above="@+id/linearLayout2"
 	        android:layout_alignParentLeft="true"
-	        android:layout_marginLeft="5dp"
 	        android:orientation="horizontal" >
 	
 	        <RelativeLayout
