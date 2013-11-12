@@ -38,7 +38,7 @@ public final class R {
         public static final int wood=0x7f02000e;
     }
     public static final class id {
-        public static final int action_settings=0x7f080013;
+        public static final int action_settings=0x7f080014;
         public static final int cardslot01=0x7f08000d;
         public static final int cardslot02=0x7f08000f;
         public static final int cardslot03=0x7f080011;
@@ -58,6 +58,7 @@ public final class R {
         public static final int mycardslot02=0x7f080003;
         public static final int mycardslot03=0x7f080004;
         public static final int myslotview=0x7f080000;
+        public static final int temp_slot=0x7f080013;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

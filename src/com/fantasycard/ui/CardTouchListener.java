@@ -26,9 +26,18 @@ public final class CardTouchListener implements OnTouchListener {
 			ClipData data = ClipData.newPlainText("", "");
 			DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 			view.startDrag(data, shadowBuilder, view, 0);
-			view.setVisibility(View.INVISIBLE);
+			//view.setVisibility(View.INVISIBLE);
 			Log.d("Premo","onTouch() selectCardSlot mCardSlotNum = " + mCardSlotNum);
-			((MainActivity)mContext).selectCardSlot(mCardSlotNum);
+			((MainActivity)mContext).selectView(view);
+			int nowSlot = ((MainActivity)mContext).checkSlotCard();
+			if (nowSlot == -1) {
+				((MainActivity)mContext).selectCardSlot(mCardSlotNum);
+				((MainActivity)mContext).handToTemp();
+			}else {
+				((MainActivity)mContext).selectCardSlot(nowSlot);
+				((MainActivity)mContext).slotToTemp();
+				
+			}
 			return true;
 		} else {
 			return false;
