@@ -85,6 +85,10 @@ public class CardDragListener implements OnDragListener {
 				if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
 					mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
 					int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
+					if(selectbattleslotnum == slotNum) {
+						(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
+						return true;
+					}
 					mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
 				}
 				else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&

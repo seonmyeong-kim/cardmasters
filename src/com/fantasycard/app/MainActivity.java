@@ -211,7 +211,7 @@ public class MainActivity extends Activity {
 	    mMyBattleSlotView[targetBattleSlotNum].mCardSlotId = AppValues.BATTLE_SLOT_1 + targetBattleSlotNum;
 	    
 		mHandSlotFrame[fromHandSlotNum].removeView(mMyHandSlotCardView[fromHandSlotNum]);
-		
+		Log.d("Premo", "moveHandToBattleSlot() addImgViewToMyBattleSlot targetBattleSlotNum = " + targetBattleSlotNum);
 		mySlotView.addImgViewToMyBattleSlot(targetBattleSlotNum, mMyBattleSlotView[targetBattleSlotNum]);
 	    final View droppedView = mMyBattleSlotView[targetBattleSlotNum];
 	    droppedView.post(new Runnable(){
@@ -234,6 +234,7 @@ public class MainActivity extends Activity {
 		mMyBattleSlotView[targetBattleSlotNum] = mMyBattleSlotView[fromBattleSlotNum];
 		mBattleSlotFrame[fromBattleSlotNum].removeView(mMyBattleSlotView[fromBattleSlotNum]);
 				
+		Log.d("Premo", "moveBattleToBattleSlot() addImgViewToMyBattleSlot targetBattleSlotNum = " + targetBattleSlotNum);
 		mySlotView.addImgViewToMyBattleSlot(targetBattleSlotNum, mMyBattleSlotView[targetBattleSlotNum]);
 	    final View targetView = mMyBattleSlotView[targetBattleSlotNum];
 	    targetView.post(new Runnable(){
@@ -246,6 +247,7 @@ public class MainActivity extends Activity {
 
 	    mMyBattleSlot[fromBattleSlotNum] = tempinfo;
 	    mMyBattleSlotView[fromBattleSlotNum] = tempview;
+	    Log.d("Premo", "moveBattleToBattleSlot() addImgViewToMyBattleSlot fromBattleSlotNum = " + fromBattleSlotNum);
 		mySlotView.addImgViewToMyBattleSlot(fromBattleSlotNum, mMyBattleSlotView[fromBattleSlotNum]);
 	    final View fromView = mMyBattleSlotView[fromBattleSlotNum];
 	    fromView.post(new Runnable(){
