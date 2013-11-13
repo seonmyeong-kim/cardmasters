@@ -21,15 +21,15 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
         mContext = context;
     }
 	
-	public void addImgViewToMyCardSlot(int cardslot, CardView cardview) {
-		((MainActivity)mContext).mSlotCardFrame[cardslot].addView(cardview);
+	public void addImgViewToMyBattleSlot(int cardslot, CardView cardview) {
+		((MainActivity)mContext).mBattleSlotFrame[cardslot].addView(cardview);
 		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
 		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 70, 90)));
 	}
 	
-	public void addImgViewToMyHand(int cardslot, CardView cardview) {
-		((MainActivity)mContext).mHandCardFrame[cardslot].addView(cardview);
+	public void addImgViewToMyHandSlot(int cardslot, CardView cardview) {
+		((MainActivity)mContext).mHandSlotFrame[cardslot].addView(cardview);
 		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
 		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 70, 90)));

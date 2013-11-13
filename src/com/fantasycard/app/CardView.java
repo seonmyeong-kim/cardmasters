@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 public class CardView extends ImageView{
 
+	public int mCardSlotId = 0;
+	
 	public CardView(Context context) {
 		super(context);
 	}

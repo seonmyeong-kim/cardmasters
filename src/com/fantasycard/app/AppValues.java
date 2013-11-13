@@ -5,4 +5,17 @@ public class AppValues {
 	public final static int CARD_CREATURE = 2;
 	public final static int CARD_ITEM = 3;
 	
+	public final static int BATTLE_SLOT_1 = 11;
+	public final static int BATTLE_SLOT_2 = 12;
+	public final static int BATTLE_SLOT_3 = 13;
+	
+	public final static int MANA_SLOT_1 = 21;
+	public final static int MANA_SLOT_2 = 22;
+	public final static int MANA_SLOT_3 = 23;
+	public final static int MANA_SLOT_4 = 24;
+	public final static int MANA_SLOT_5 = 25;
+	
+	public final static int HAND_SLOT_1 = 31;
+	public final static int HAND_SLOT_2 = 32;
+	public final static int HAND_SLOT_3 = 33;
 }

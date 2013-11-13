@@ -1,5 +1,6 @@
 package com.fantasycard.ui;
 
+import com.fantasycard.app.CardView;
 import com.fantasycard.app.MainActivity;
 
 import android.content.ClipData;
@@ -13,11 +14,9 @@ import android.view.View.OnTouchListener;
 public final class CardTouchListener implements OnTouchListener {
 
 	public Context mContext;
-	private int mCardSlotNum;
 	
-	public CardTouchListener(Context context, int slotnum) {
+	public CardTouchListener(Context context) {
 		mContext = context;
-		mCardSlotNum = slotnum;
 	}
 	
 	public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -27,8 +26,9 @@ public final class CardTouchListener implements OnTouchListener {
 			DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
 			view.startDrag(data, shadowBuilder, view, 0);
 			view.setVisibility(View.INVISIBLE);
-			Log.d("Premo","onTouch() selectCardSlot mCardSlotNum = " + mCardSlotNum);
-			((MainActivity)mContext).selectCardSlot(mCardSlotNum);
+			
+			Log.d("Premo","onTouch() selectCardSlotId mCardSlotId = " + ((CardView)view).mCardSlotId);
+			((MainActivity)mContext).selectCardSlotId(((CardView)view).mCardSlotId);
 			return true;
 		} else {
 			return false;

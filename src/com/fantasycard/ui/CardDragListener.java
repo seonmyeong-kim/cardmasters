@@ -1,5 +1,7 @@
 package com.fantasycard.ui;
 
+import com.fantasycard.app.AppValues;
+import com.fantasycard.app.CardView;
 import com.fantasycard.app.MainActivity;
 import com.fantasycard.app.R;
 
@@ -17,17 +19,15 @@ import android.widget.LinearLayout;
 public class CardDragListener implements OnDragListener {
 
 	public Context mContext;
-	private int mCardSlotNum;
+	public MainActivity mActivity;
+	
 	boolean mIsEntered = false;
 	private View dropView;
 	private int slotNum = -1;
-	public CardDragListener(Context context, int cardslot) {
-		mContext = context;
-		mCardSlotNum = cardslot;
-	}
 	
 	public CardDragListener(Context context, LinearLayout dropArea) {
 		mContext = context;
+		mActivity = (MainActivity)context;
 		dropView = dropArea;
 	}
 	
@@ -62,14 +62,15 @@ public class CardDragListener implements OnDragListener {
 			int newSlotNum = nowSlot(event.getX());
 			if (slotNum != newSlotNum) {
 				if (slotNum != -1) {
-					((MainActivity)mContext).mSlotCardFrame[slotNum].clearAnimation();
+					mActivity.mBattleSlotFrame[slotNum].clearAnimation();
 				}
 				slotNum = newSlotNum;
-				blinkSrot(((MainActivity)mContext).mSlotCardFrame[slotNum]);
+				Log.d("Premo","onDrag() slotNum = " + slotNum);
+				blinkSrot(mActivity.mBattleSlotFrame[slotNum]);
 			}
 			break;
 		case DragEvent.ACTION_DRAG_EXITED:
-			((MainActivity)mContext).mSlotCardFrame[slotNum].clearAnimation();
+			mActivity.mBattleSlotFrame[slotNum].clearAnimation();
 			slotNum = -1;
 			mIsEntered = false;
 			break;
@@ -78,11 +79,20 @@ public class CardDragListener implements OnDragListener {
 		case DragEvent.ACTION_DRAG_ENDED:
 			if(mIsEntered) {
 				if (slotNum != -1) {
-					((MainActivity)mContext).mSlotCardFrame[slotNum].clearAnimation();	
+					mActivity.mBattleSlotFrame[slotNum].clearAnimation();	
 				}
-				((MainActivity)mContext).dropCardToMyCardSlot(slotNum);
+				
+				if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
+					mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
+					int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
+					mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
+				}
+				else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&
+					    mActivity.mSelectSlotId <= AppValues.HAND_SLOT_3) {
+					mActivity.moveHandToEmptyBattleSlot(slotNum);
+				}
 			}else {
-				((MainActivity)mContext).mMyHandsCardView[((MainActivity)mContext).mSelectCard].setVisibility(View.VISIBLE);
+				(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
 			}
 			slotNum = -1;
 			break;
