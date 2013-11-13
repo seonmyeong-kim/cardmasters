@@ -32,10 +32,10 @@ public class MainActivity extends Activity {
 	
 	private MyCardSlotViewGroup mySlotView;
 	private DeckManager mDeckManager;
+	private DeckManager mEnermyDeckManager;
 	
 	public static CardInfo[] mMyHandSlot = new CardInfo[3];
 	public static CardView[] mMyHandSlotCardView = new CardView[3];
-	public static Hashtable<CardView, CardInfo> mCardViewList = new Hashtable<CardView, CardInfo>();
 	public int mSelectSlotId;
 	
 	public static CardInfo[] mMyBattleSlot = new CardInfo[3];
@@ -44,15 +44,32 @@ public class MainActivity extends Activity {
 	public RelativeLayout[] mHandSlotFrame = new RelativeLayout[3];
 	public RelativeLayout[] mBattleSlotFrame = new RelativeLayout[3];
 	
+	public static Hashtable<CardView, CardInfo> mCardViewList = new Hashtable<CardView, CardInfo>();
+	
+	public static CardInfo[] mEnermyHandSlot = new CardInfo[3];
+	
+	public static CardInfo[] mEnermyBattleSlot = new CardInfo[3];
+	public static CardInfo[] mEnermyBattleSlotView = new CardInfo[3];
+	
+	public RelativeLayout[] mEnermyBattleSlotFrame = new RelativeLayout[3];
+	
 	public LinearLayout dropArea;
 	
 	private TextView mtxtTurnCnt;
-	private TextView mtxtManaCnt;
-	private TextView mtxtLifeCnt;
+	private TextView mtxtPlayerManaCnt;
+	private TextView mtxtPlayerLifeCnt;
+	
+	private TextView mtxtEnermyManaCnt;
+	private TextView mtxtEnermyLifeCnt;
 	
 	private int mTurn;
 	private int mPlayerMana;
 	private int mPlayerLife;
+	
+	private int mEnermyMana;
+	private int mEnermyLife;
+	
+	private int mDeviceHeightDp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +103,10 @@ public class MainActivity extends Activity {
 		
 		mTurn = 0;
 		mPlayerMana = 0;
-		mPlayerLife = 10;
+		mPlayerLife = 15;
+		
+		mEnermyMana = 0;
+		mEnermyLife = 15;
 		
 		///TurnCount初期化
 		mtxtTurnCnt = new TextView(this);
@@ -95,30 +115,52 @@ public class MainActivity extends Activity {
         mySlotView.addView(mtxtTurnCnt);
         
 		RelativeLayout.LayoutParams turnparams = (RelativeLayout.LayoutParams) mtxtTurnCnt.getLayoutParams();
-		mtxtTurnCnt.setLayoutParams(UILayoutParams.changeMargin(turnparams, new Rect(10, 5, 10, 35)));
+		mtxtTurnCnt.setLayoutParams(UILayoutParams.wrapRect(turnparams, new Rect(260, 5, 10, 35)));
 
 		///ManaCount初期化
-		mtxtManaCnt = new TextView(this);
-		mtxtManaCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtManaCnt.setText("Mana : " + mPlayerMana);
-		mySlotView.addView(mtxtManaCnt);
+		mtxtPlayerManaCnt = new TextView(this);
+		mtxtPlayerManaCnt.setTextColor(Color.rgb(246, 196, 5));
+		mtxtPlayerManaCnt.setText("Mana : " + mPlayerMana);
+		mySlotView.addView(mtxtPlayerManaCnt);
         
-		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtManaCnt.getLayoutParams();
-		mtxtManaCnt.setLayoutParams(UILayoutParams.changeMargin(manaparams, new Rect(100, 5, 10, 35)));
+		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtPlayerManaCnt.getLayoutParams();
+		mtxtPlayerManaCnt.setLayoutParams(UILayoutParams.wrapRect(manaparams, new Rect(10, mDeviceHeightDp-25, 10, 35)));
 		
 		///LifeCount初期化
-		mtxtLifeCnt = new TextView(this);
-		mtxtLifeCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtLifeCnt.setText("Life : " + mPlayerLife);
-        mySlotView.addView(mtxtLifeCnt);
+		mtxtPlayerLifeCnt = new TextView(this);
+		mtxtPlayerLifeCnt.setTextColor(Color.rgb(246, 196, 5));
+		mtxtPlayerLifeCnt.setText("Life : " + mPlayerLife);
+        mySlotView.addView(mtxtPlayerLifeCnt);
         
-		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtLifeCnt.getLayoutParams();
-		mtxtLifeCnt.setLayoutParams(UILayoutParams.changeMargin(lifeparams, new Rect(210, 5, 10, 35)));
+		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtPlayerLifeCnt.getLayoutParams();
+		mtxtPlayerLifeCnt.setLayoutParams(UILayoutParams.wrapRect(lifeparams, new Rect(130, mDeviceHeightDp-25, 10, 35)));
+		
+		///EnermyManaCount初期化
+		mtxtEnermyManaCnt = new TextView(this);
+		mtxtEnermyManaCnt.setTextColor(Color.rgb(246, 196, 5));
+		mtxtEnermyManaCnt.setText("EnermyMana : " + mEnermyMana);
+		mySlotView.addView(mtxtEnermyManaCnt);
+        
+		RelativeLayout.LayoutParams enermy_manaparams = (RelativeLayout.LayoutParams) mtxtEnermyManaCnt.getLayoutParams();
+		mtxtEnermyManaCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_manaparams, new Rect(10, 5, 10, 35)));
+		
+		///EnermyLifeCount初期化
+		mtxtEnermyLifeCnt = new TextView(this);
+		mtxtEnermyLifeCnt.setTextColor(Color.rgb(246, 196, 5));
+		mtxtEnermyLifeCnt.setText("EnermyLife : " + mEnermyLife);
+        mySlotView.addView(mtxtEnermyLifeCnt);
+        
+		RelativeLayout.LayoutParams enermy_lifeparams = (RelativeLayout.LayoutParams) mtxtEnermyLifeCnt.getLayoutParams();
+		mtxtEnermyLifeCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_lifeparams, new Rect(130, 5, 10, 35)));
         
 		mDeckManager = new DeckManager();
 		mDeckManager.init();
 		
+		mEnermyDeckManager = new DeckManager();
+		mEnermyDeckManager.init();
+		
 		firstDrawCard();
+		firstDrawEnermyCard();
 		
 		mCardViewList.put(mMyHandSlotCardView[0], mMyHandSlot[0]);
 		mCardViewList.put(mMyHandSlotCardView[1], mMyHandSlot[1]);
@@ -146,6 +188,14 @@ public class MainActivity extends Activity {
 	
 	public void selectCardSlotId(int cardslotid){
 		mSelectSlotId = cardslotid;
+	}
+	
+	private void firstDrawEnermyCard() {
+		for(int i=0;i<3;i++){
+			if(mEnermyHandSlot[i] == null){
+				mEnermyHandSlot[i] = mEnermyDeckManager.getCardFromDeck();
+			}
+		}
 	}
 	
 	private void firstDrawCard(){
@@ -332,6 +382,10 @@ public class MainActivity extends Activity {
 	private void appOnAttachedToWindow() {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		int deviceheight = getWindowManager().getDefaultDisplay().getHeight();
+		mDeviceHeightDp = (int)(deviceheight / getResources().getDisplayMetrics().density);
+		Log.d("Premo","mDeviceHeightDp = " + mDeviceHeightDp);
+		
         int px = getWindowManager().getDefaultDisplay().getWidth();
         float dp = px / getResources().getDisplayMetrics().density;
 		if(dp > 720 ){
