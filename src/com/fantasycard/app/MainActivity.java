@@ -11,8 +11,10 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
@@ -22,6 +24,9 @@ import android.view.ViewGroup;
 import android.view.View.DragShadowBuilder;
 import android.view.View.OnDragListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -46,6 +51,9 @@ public class MainActivity extends Activity {
 	
 	public RelativeLayout[] mHandSlotFrame = new RelativeLayout[3];
 	public RelativeLayout[] mBattleSlotFrame = new RelativeLayout[3];
+	public RelativeLayout mManaFrame;
+	
+	public ImageView cardEffectAnimiationView; 
 	
 	public static Hashtable<CardView, CardInfo> mCardViewList = new Hashtable<CardView, CardInfo>();
 	
@@ -103,6 +111,10 @@ public class MainActivity extends Activity {
 		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.cardslot01);
 		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.cardslot02);
 		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.cardslot03);
+		
+		mManaFrame = (RelativeLayout) findViewById(R.id.cardslot_mana);
+		
+		cardEffectAnimiationView = (ImageView) findViewById(R.id.card_effect_animation);
 		
 		mMyManaSlotView[0] = (ImageView) findViewById(R.id.manaslot01);
 		mMyManaSlotView[1] = (ImageView) findViewById(R.id.manaslot02);
@@ -274,13 +286,48 @@ public class MainActivity extends Activity {
 		return -1;
 	}
 	public void moveHandToManaSlot(int fromHandSlotNum){
-		int emptyManaSlot = getEmptyManaSlot();
+		final int emptyManaSlot = getEmptyManaSlot();
 		mMyManaSlot[emptyManaSlot] = mMyHandSlot[fromHandSlotNum];
-	    Log.d("", "fromHandSlotNum:"+fromHandSlotNum);
 		mHandSlotFrame[fromHandSlotNum].removeView(mMyHandSlotCardView[fromHandSlotNum]);
-		CardInfo selectedCardInfo = getCardInfoFromSelectHandSlot();
+		mySlotView.addImgViewToMyManaSlot(mMyHandSlotCardView[fromHandSlotNum]);
+		final View targetView = mMyHandSlotCardView[fromHandSlotNum];
+	    targetView.post(new Runnable(){
+			@Override
+			public void run() {
+				targetView.setVisibility(View.VISIBLE);
+			}
+	    });
+	    final CardInfo selectedCardInfo = getCardInfoFromSelectHandSlot();
+	    
+	    setManaAnimation(selectedCardInfo.material);
+	    AnimationDrawable effectAnimation = (AnimationDrawable) cardEffectAnimiationView.getBackground();
+	    effectAnimation.start();
+	    
+	    final Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.card_fadeout);
+	    targetView.startAnimation(fadeOutAnimation);
+	    
 		
-		switch (selectedCardInfo.material) {
+		
+	    mMyHandSlot[fromHandSlotNum] = null;
+	    mMyHandSlotCardView[fromHandSlotNum] = null;
+	    
+	    int duration = 0;
+		for (int i=0; i<effectAnimation.getNumberOfFrames(); i++){
+		    duration = duration + effectAnimation.getDuration(i);
+		    }
+		Handler handler = new Handler();
+		handler.postDelayed(new Runnable(){
+		    public void run() {
+		    	mySlotView.removeView(targetView);
+		    	targetView.setVisibility(View.GONE);
+		    	cardEffectAnimiationView.setBackgroundColor(Color.TRANSPARENT);
+		    	setMana(selectedCardInfo.material, emptyManaSlot);
+		    }
+		}, duration); 
+	}
+	
+	public void setMana(int material,int emptyManaSlot){
+		switch (material) {
 		case 0:
 			mMyManaSlotView[emptyManaSlot].setImageResource(R.drawable.mana_fire);
 			break;
@@ -291,9 +338,20 @@ public class MainActivity extends Activity {
 			mMyManaSlotView[emptyManaSlot].setImageResource(R.drawable.mana_forest);
 			break;
 		}
-		
-	    mMyHandSlot[fromHandSlotNum] = null;
-	    mMyHandSlotCardView[fromHandSlotNum] = null;
+	}
+	
+	public void setManaAnimation(int material){
+		switch (material) {
+		case 0:
+			cardEffectAnimiationView.setBackgroundResource(R.anim.fire);
+			break;
+		case 1:
+			cardEffectAnimiationView.setBackgroundResource(R.anim.water);
+			break;
+		case 2:
+			cardEffectAnimiationView.setBackgroundResource(R.anim.forest);
+			break;
+		}
 	}
 	
 	public void moveHandToBattleSlot(int fromHandSlotNum, int targetBattleSlotNum){
