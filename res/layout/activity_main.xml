@@ -194,6 +194,8 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:id="@+id/effect_area"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="135dp"
             android:layout_above="@+id/linearLayout2"

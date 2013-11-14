@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 	public RelativeLayout[] mHandSlotFrame = new RelativeLayout[3];
 	public RelativeLayout[] mBattleSlotFrame = new RelativeLayout[3];
 	public RelativeLayout mManaFrame;
+	public RelativeLayout effectArea;
 	
 	public ImageView cardEffectAnimiationView; 
 	
@@ -113,6 +114,7 @@ public class MainActivity extends Activity {
 		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.cardslot03);
 		
 		mManaFrame = (RelativeLayout) findViewById(R.id.cardslot_mana);
+		effectArea = (RelativeLayout) findViewById(R.id.effect_area);
 		
 		cardEffectAnimiationView = (ImageView) findViewById(R.id.card_effect_animation);
 		
@@ -286,6 +288,12 @@ public class MainActivity extends Activity {
 		return -1;
 	}
 	public void moveHandToManaSlot(int fromHandSlotNum){
+		effectArea.post(new Runnable(){
+			@Override
+			public void run() {
+				effectArea.setVisibility(View.VISIBLE);
+			}
+	    });
 		final int emptyManaSlot = getEmptyManaSlot();
 		mMyManaSlot[emptyManaSlot] = mMyHandSlot[fromHandSlotNum];
 		mHandSlotFrame[fromHandSlotNum].removeView(mMyHandSlotCardView[fromHandSlotNum]);
@@ -305,9 +313,7 @@ public class MainActivity extends Activity {
 	    
 	    final Animation fadeOutAnimation = AnimationUtils.loadAnimation(this, R.anim.card_fadeout);
 	    targetView.startAnimation(fadeOutAnimation);
-	    
-		
-		
+	   
 	    mMyHandSlot[fromHandSlotNum] = null;
 	    mMyHandSlotCardView[fromHandSlotNum] = null;
 	    
@@ -318,6 +324,7 @@ public class MainActivity extends Activity {
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable(){
 		    public void run() {
+		    	effectArea.setVisibility(View.GONE);
 		    	mySlotView.removeView(targetView);
 		    	targetView.setVisibility(View.GONE);
 		    	cardEffectAnimiationView.setBackgroundColor(Color.TRANSPARENT);
