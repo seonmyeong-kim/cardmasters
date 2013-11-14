@@ -4,6 +4,7 @@ import com.fantasycard.app.AppValues;
 import com.fantasycard.app.CardView;
 import com.fantasycard.app.MainActivity;
 import com.fantasycard.app.R;
+import com.fantasycard.cardinfo.CardInfo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -57,6 +58,7 @@ public class CardDragListener implements OnDragListener {
 		case DragEvent.ACTION_DRAG_ENTERED:
 			Log.d("", "enter:"+event.getX()+" - "+event.getY());
 			mIsEntered = true;
+			slotNum = nowSlot(event.getX());
 			break;
 		case DragEvent.ACTION_DRAG_LOCATION:
 			int newSlotNum = nowSlot(event.getX());
@@ -82,21 +84,28 @@ public class CardDragListener implements OnDragListener {
 					mActivity.mBattleSlotFrame[slotNum].clearAnimation();	
 				}
 				
-				if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
-					mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
-					int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
-					if(selectbattleslotnum == slotNum) {
-						(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
-						return true;
+				CardInfo selectedCardInfo = mActivity.getCardInfoFromSelectHandSlot();
+				if (selectedCardInfo.card_category == 1) {
+					mActivity.moveHandToManaSlot(mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId));
+				}else {
+					if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
+						mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
+						int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
+						if(selectbattleslotnum == slotNum) {
+							(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
+							return true;
+						}
+						mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
 					}
-					mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
+					else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&
+						    mActivity.mSelectSlotId <= AppValues.HAND_SLOT_3) {
+						mActivity.moveHandToEmptyBattleSlot(slotNum);
+					}
 				}
-				else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&
-					    mActivity.mSelectSlotId <= AppValues.HAND_SLOT_3) {
-					mActivity.moveHandToEmptyBattleSlot(slotNum);
-				}
+				
 			}else {
 				(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
+
 			}
 			slotNum = -1;
 			break;

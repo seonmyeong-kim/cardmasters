@@ -14,6 +14,7 @@ public class AppValues {
 	public final static int MANA_SLOT_3 = 23;
 	public final static int MANA_SLOT_4 = 24;
 	public final static int MANA_SLOT_5 = 25;
+	public final static int MANA_SLOT_6 = 26;
 	
 	public final static int HAND_SLOT_1 = 31;
 	public final static int HAND_SLOT_2 = 32;
