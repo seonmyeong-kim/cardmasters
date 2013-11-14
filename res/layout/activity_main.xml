@@ -83,60 +83,60 @@
             android:background="@drawable/bar"
             android:gravity="center"
             android:orientation="horizontal" >
-            
-			<ImageView
-	            android:id="@+id/manaslot01"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
-			
-			<ImageView
-	            android:id="@+id/manaslot02"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
-			
-			<ImageView
-	            android:id="@+id/manaslot03"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
-			
-			<ImageView
-	            android:id="@+id/manaslot04"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
-			
-			<ImageView
-	            android:id="@+id/manaslot05"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
-			
-			<ImageView
-	            android:id="@+id/manaslot06"
-	            android:layout_width="25dp"
-	            android:layout_height="25dp"
-	            android:background="@null"
-	            android:layout_gravity="bottom"
-	            android:layout_margin="3dp"
-	            android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot01"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot02"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot03"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot04"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot05"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
+
+            <ImageView
+                android:id="@+id/manaslot06"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom"
+                android:layout_margin="3dp"
+                android:background="@null"
+                android:src="@drawable/mana_empty" />
         </LinearLayout>
 
         <LinearLayout
@@ -193,6 +193,29 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal" >
+            <RelativeLayout
+                android:id="@+id/cardslot_mana"
+                android:layout_width="match_parent"
+                android:layout_height="135dp"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal" >
+
+                
+            </RelativeLayout>
+            <ImageView
+                    android:id="@+id/card_effect_animation"
+                    android:layout_width="135dp"
+                    android:layout_height="135dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
+            
+        </RelativeLayout>
     </com.fantasycard.app.MyCardSlotViewGroup>
 
 </RelativeLayout>

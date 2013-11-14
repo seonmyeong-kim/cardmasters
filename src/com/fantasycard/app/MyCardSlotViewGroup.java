@@ -34,6 +34,13 @@ public class MyCardSlotViewGroup  extends RelativeLayout{
 		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
 		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 70, 90)));
 	}
+	
+	public void addImgViewToMyManaSlot(CardView cardview) {
+		((MainActivity)mContext).mManaFrame.addView(cardview);
+		RelativeLayout.LayoutParams cardimgparams = (RelativeLayout.LayoutParams) cardview.getLayoutParams();
+		cardimgparams.addRule(RelativeLayout.CENTER_IN_PARENT);
+		cardview.setLayoutParams(UILayoutParams.changeRect(cardimgparams, new Rect(0, 0, 105, 135)));
+	}
 
 	public void addImgView(int resId, Rect rect){
 		ImageView iv = new ImageView(mContext);
