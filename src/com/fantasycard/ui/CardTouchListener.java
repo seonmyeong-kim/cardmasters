@@ -29,6 +29,7 @@ public final class CardTouchListener implements OnTouchListener {
 			
 			Log.d("Premo","onTouch() selectCardSlotId mCardSlotId = " + ((CardView)view).mCardSlotId);
 			((MainActivity)mContext).selectCardSlotId(((CardView)view).mCardSlotId);
+
 			return true;
 		} else {
 			return false;

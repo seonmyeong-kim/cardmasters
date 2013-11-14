@@ -58,6 +58,7 @@ public class CardDragListener implements OnDragListener {
 		case DragEvent.ACTION_DRAG_ENTERED:
 			Log.d("", "enter:"+event.getX()+" - "+event.getY());
 			mIsEntered = true;
+			slotNum = nowSlot(event.getX());
 			break;
 		case DragEvent.ACTION_DRAG_LOCATION:
 			int newSlotNum = nowSlot(event.getX());
@@ -104,6 +105,7 @@ public class CardDragListener implements OnDragListener {
 				
 			}else {
 				(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
+
 			}
 			slotNum = -1;
 			break;

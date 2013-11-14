@@ -192,6 +192,7 @@
                     android:src="@drawable/frame" />
             </RelativeLayout>
         </LinearLayout>
+
     </com.fantasycard.app.MyCardSlotViewGroup>
 
 </RelativeLayout>
