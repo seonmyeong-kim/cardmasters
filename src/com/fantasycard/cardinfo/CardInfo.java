@@ -7,4 +7,5 @@ public class CardInfo {
 	public int attackpoint;
 	public int defensepoint;
 	public int lifepoint;
+	public int material; //0-fire , 1-water , 2-forest
 }

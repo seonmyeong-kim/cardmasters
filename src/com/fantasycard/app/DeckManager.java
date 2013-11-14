@@ -23,6 +23,7 @@ public class DeckManager {
 				card.attackpoint = 0;
 				card.defensepoint = 0;
 				card.lifepoint = 0;
+				card.material = 0;
 				mDeck.add(card);
 			}
 			else if(i >= 5 && i < 10){
@@ -33,6 +34,7 @@ public class DeckManager {
 				card.attackpoint = 0;
 				card.defensepoint = 0;
 				card.lifepoint = 0;
+				card.material = 1;
 				mDeck.add(card);
 			}
 			else if(i >= 10 && i < 15){
@@ -43,6 +45,7 @@ public class DeckManager {
 				card.attackpoint = 0;
 				card.defensepoint = 0;
 				card.lifepoint = 0;
+				card.material = 2;
 				mDeck.add(card);
 			}
 			else if(i >= 15 && i < 17){
@@ -53,6 +56,7 @@ public class DeckManager {
 				card.attackpoint = 1;
 				card.defensepoint = 0;
 				card.lifepoint = 1;
+				card.material = 0;
 				mDeck.add(card);
 			}
 			else if(i >= 17 && i < 19){
@@ -63,6 +67,7 @@ public class DeckManager {
 				card.attackpoint = 0;
 				card.defensepoint = 1;
 				card.lifepoint = 1;
+				card.material = 1;
 				mDeck.add(card);
 			}
 			else if(i >= 19 && i < 21){
@@ -73,6 +78,7 @@ public class DeckManager {
 				card.attackpoint = 1;
 				card.defensepoint = 1;
 				card.lifepoint = 1;
+				card.material = 2;
 				mDeck.add(card);
 			}
 			else if(i >= 21 && i < 23){
@@ -83,6 +89,7 @@ public class DeckManager {
 				card.attackpoint = 1;
 				card.defensepoint = 0;
 				card.lifepoint = 2;
+				card.material = 1;
 				mDeck.add(card);
 			}
 			else if(i >= 23 && i < 25){
@@ -93,6 +100,7 @@ public class DeckManager {
 				card.attackpoint = 2;
 				card.defensepoint = 0;
 				card.lifepoint = 1;
+				card.material = 0;
 				mDeck.add(card);
 			}
 			else if(i >= 25 && i < 27){
@@ -103,6 +111,7 @@ public class DeckManager {
 				card.attackpoint = 3;
 				card.defensepoint = 0;
 				card.lifepoint = 2;
+				card.material = 1;
 				mDeck.add(card);
 			}
 			else if(i >= 27 && i < 30){
@@ -113,6 +122,7 @@ public class DeckManager {
 				card.attackpoint = 3;
 				card.defensepoint = 1;
 				card.lifepoint = 3;
+				card.material = 2;
 				mDeck.add(card);
 			}
 		}

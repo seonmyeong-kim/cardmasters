@@ -3,175 +3,195 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-   <com.fantasycard.app.MyCardSlotViewGroup
-       xmlns:android="http://schemas.android.com/apk/res/android"
-	   	android:id="@+id/myslotview"
-	   	android:layout_width="match_parent"
-	   	android:layout_height="match_parent"
-	   	android:background="@android:color/transparent" >
-	    <ImageView
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:scaleType="fitCenter"
-	        android:background="@drawable/wood" />
-	
-	    <LinearLayout
-	        android:id="@+id/linearLayout1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_marginBottom="25dp"
-	        android:orientation="horizontal" >
-	
-	        <RelativeLayout
-	            android:id="@+id/mycardslot01"
-	            android:layout_width="0dp"
-	            android:layout_height="95dp"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:orientation="horizontal">
-	            </RelativeLayout>
-	            
-	        <RelativeLayout
-	            android:id="@+id/mycardslot02"
-	            android:layout_width="0dp"
-	            android:layout_height="95dp"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:orientation="horizontal">
-	            </RelativeLayout>
-	            
-	        <RelativeLayout
-	            android:id="@+id/mycardslot03"
-	            android:layout_width="0dp"
-	            android:layout_height="95dp"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:orientation="horizontal">
-	            </RelativeLayout>
-	            
-	        <ImageView
-	            android:id="@+id/deck"
-	            android:layout_width="0dp"
-	            android:layout_height="95dp"
-	            android:layout_weight="0.5"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_marginRight="3dp"
-	            android:src="@drawable/card_back" />
-	    </LinearLayout>
-	
-	    <LinearLayout
-	        android:id="@+id/linearLayout2"
-	        android:layout_width="match_parent"
-	        android:layout_height="70dp"
-	        android:layout_above="@+id/linearLayout1"
-	        android:layout_alignParentLeft="true"
-	        android:layout_marginBottom="5dp"
-	        android:orientation="horizontal" >
-	
-	        <ImageView
-	            android:id="@+id/manaslot01"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_margin="1dp"
-	            android:src="@drawable/frame" />
-	
-	        <ImageView
-	            android:id="@+id/manaslot02"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_margin="1dp"
-	            android:src="@drawable/frame" />
-	
-	        <ImageView
-	            android:id="@+id/manaslot03"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_margin="1dp"
-	            android:src="@drawable/frame" />
-	
-	        <ImageView
-	            android:id="@+id/manaslot04"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_margin="1dp"
-	            android:src="@drawable/frame" />
-	
-	        <ImageView
-	            android:id="@+id/manaslot05"
-	            android:layout_width="0dp"
-	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
-	            android:background="@null"
-	            android:scaleType="fitCenter"
-	            android:layout_margin="1dp"
-	            android:src="@drawable/frame" />
-	    </LinearLayout>
-	
-	    <LinearLayout
-	        android:id="@+id/drop_area"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:layout_above="@+id/linearLayout2"
-	        android:layout_alignParentLeft="true"
-	        android:orientation="horizontal" >
-	
-	        <RelativeLayout
-	            android:id="@+id/cardslot01"
-	            android:layout_width="0dp"
-	            android:layout_height="93dp"
-	            android:layout_weight="1"
-	            android:orientation="horizontal">
-	            <ImageView
-		            android:id="@+id/cardslotBackground01"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/frame" />
-	            </RelativeLayout>
-	            
-	        <RelativeLayout
-	            android:id="@+id/cardslot02"
-	            android:layout_width="0dp"
-	            android:layout_height="93dp"
-	            android:layout_weight="1"
-	            android:orientation="horizontal">
-	            <ImageView
-		            android:id="@+id/cardslotBackground02"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/frame" />
-	            </RelativeLayout>
-	            
-	        <RelativeLayout
-	            android:id="@+id/cardslot03"
-	            android:layout_width="0dp"
-	            android:layout_height="93dp"
-	            android:layout_weight="1"
-	            android:orientation="horizontal">
-	            <ImageView
-		            android:id="@+id/cardslotBackground03"
-		            android:layout_width="match_parent"
-		            android:layout_height="match_parent"
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/frame" />
-	            </RelativeLayout>
-	    </LinearLayout>
+    <com.fantasycard.app.MyCardSlotViewGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/myslotview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/wood"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="25dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/grave"
+                android:layout_width="0dp"
+                android:layout_height="95dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/grave_card" />
+
+            <RelativeLayout
+                android:id="@+id/mycardslot01"
+                android:layout_width="0dp"
+                android:layout_height="95dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:orientation="horizontal" >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mycardslot02"
+                android:layout_width="0dp"
+                android:layout_height="95dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:orientation="horizontal" >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mycardslot03"
+                android:layout_width="0dp"
+                android:layout_height="95dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:orientation="horizontal" >
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/deck"
+                android:layout_width="0dp"
+                android:layout_height="95dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="0.5"
+                android:background="@null"
+                android:scaleType="fitCenter"
+                android:src="@drawable/card_back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_above="@+id/linearLayout1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/bar"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            
+			<ImageView
+	            android:id="@+id/manaslot01"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+			
+			<ImageView
+	            android:id="@+id/manaslot02"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+			
+			<ImageView
+	            android:id="@+id/manaslot03"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+			
+			<ImageView
+	            android:id="@+id/manaslot04"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+			
+			<ImageView
+	            android:id="@+id/manaslot05"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+			
+			<ImageView
+	            android:id="@+id/manaslot06"
+	            android:layout_width="25dp"
+	            android:layout_height="25dp"
+	            android:background="@null"
+	            android:layout_gravity="bottom"
+	            android:layout_margin="3dp"
+	            android:src="@drawable/mana_empty" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/drop_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout2"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/cardslot01"
+                android:layout_width="0dp"
+                android:layout_height="93dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/cardslotBackground01"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frame" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cardslot02"
+                android:layout_width="0dp"
+                android:layout_height="93dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/cardslotBackground02"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frame" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/cardslot03"
+                android:layout_width="0dp"
+                android:layout_height="93dp"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/cardslotBackground03"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/frame" />
+            </RelativeLayout>
+        </LinearLayout>
     </com.fantasycard.app.MyCardSlotViewGroup>
+
 </RelativeLayout>

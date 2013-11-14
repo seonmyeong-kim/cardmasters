@@ -41,6 +41,9 @@ public class MainActivity extends Activity {
 	public static CardInfo[] mMyBattleSlot = new CardInfo[3];
 	public static CardView[] mMyBattleSlotView = new CardView[3];
 	
+	public static CardInfo[] mMyManaSlot = new CardInfo[6];
+	public static ImageView[] mMyManaSlotView = new ImageView[6];
+	
 	public RelativeLayout[] mHandSlotFrame = new RelativeLayout[3];
 	public RelativeLayout[] mBattleSlotFrame = new RelativeLayout[3];
 	
@@ -100,6 +103,13 @@ public class MainActivity extends Activity {
 		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.cardslot01);
 		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.cardslot02);
 		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.cardslot03);
+		
+		mMyManaSlotView[0] = (ImageView) findViewById(R.id.manaslot01);
+		mMyManaSlotView[1] = (ImageView) findViewById(R.id.manaslot02);
+		mMyManaSlotView[2] = (ImageView) findViewById(R.id.manaslot03);
+		mMyManaSlotView[3] = (ImageView) findViewById(R.id.manaslot04);
+		mMyManaSlotView[4] = (ImageView) findViewById(R.id.manaslot05);
+		mMyManaSlotView[5] = (ImageView) findViewById(R.id.manaslot06);
 		
 		mTurn = 0;
 		mPlayerMana = 0;
@@ -253,6 +263,37 @@ public class MainActivity extends Activity {
 			getCardViewFromSlotId(mSelectSlotId).setVisibility(View.VISIBLE);
 		}
 		Log.d("Premo","moveHandToBattleSlot() END");
+	}
+	
+	public int getEmptyManaSlot(){
+		for (int i = 0; i < mMyManaSlot.length; i++) {
+			if (mMyManaSlot[i] == null) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	public void moveHandToManaSlot(int fromHandSlotNum){
+		int emptyManaSlot = getEmptyManaSlot();
+		mMyManaSlot[emptyManaSlot] = mMyHandSlot[fromHandSlotNum];
+	    Log.d("", "fromHandSlotNum:"+fromHandSlotNum);
+		mHandSlotFrame[fromHandSlotNum].removeView(mMyHandSlotCardView[fromHandSlotNum]);
+		CardInfo selectedCardInfo = getCardInfoFromSelectHandSlot();
+		
+		switch (selectedCardInfo.material) {
+		case 0:
+			mMyManaSlotView[emptyManaSlot].setImageResource(R.drawable.mana_fire);
+			break;
+		case 1:
+			mMyManaSlotView[emptyManaSlot].setImageResource(R.drawable.mana_water);
+			break;
+		case 2:
+			mMyManaSlotView[emptyManaSlot].setImageResource(R.drawable.mana_forest);
+			break;
+		}
+		
+	    mMyHandSlot[fromHandSlotNum] = null;
+	    mMyHandSlotCardView[fromHandSlotNum] = null;
 	}
 	
 	public void moveHandToBattleSlot(int fromHandSlotNum, int targetBattleSlotNum){
