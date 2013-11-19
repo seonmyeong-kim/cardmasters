@@ -330,6 +330,8 @@ public class MainActivity extends Activity {
 		    	targetView.setVisibility(View.GONE);
 		    	cardEffectAnimiationView.setBackgroundColor(Color.TRANSPARENT);
 		    	setMana(selectedCardInfo.material, emptyManaSlot);
+				mPlayerMana++;
+				updateState();
 		    }
 		}, duration); 
 	}
