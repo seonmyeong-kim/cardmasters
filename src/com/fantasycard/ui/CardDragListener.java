@@ -79,10 +79,8 @@ public class CardDragListener implements OnDragListener {
 		case DragEvent.ACTION_DROP:
 			break;
 		case DragEvent.ACTION_DRAG_ENDED:
-			if(mIsEntered) {
-				if (slotNum != -1) {
-					mActivity.mBattleSlotFrame[slotNum].clearAnimation();	
-				}
+			if(mIsEntered && slotNum != -1) {
+				mActivity.mBattleSlotFrame[slotNum].clearAnimation();	
 				
 				if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
 					mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {

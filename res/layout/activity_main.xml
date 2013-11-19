@@ -81,6 +81,26 @@
                 android:background="@null"
                 android:src="@drawable/mana_empty" />
         </LinearLayout>
+        
+        <ImageView
+            android:id="@+id/enemyGraveIcon"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/enemyManaSlotArea"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/grave" />
+                
+        <ImageView
+            android:id="@+id/enemyDeckIcon"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/enemyManaSlotArea"
+            android:layout_marginLeft="265dp"
+            android:layout_marginTop="3dp"
+            android:background="@null"
+            android:src="@drawable/deck" />
 
         <LinearLayout
             android:id="@+id/enemyBattleSlotArea"
@@ -169,11 +189,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal" >
 
             <ImageView
-                android:id="@+id/grave"
+                android:id="@+id/myGraveSlot"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
                 android:layout_marginRight="3dp"
@@ -183,7 +203,7 @@
                 android:src="@drawable/grave_card" />
 
             <RelativeLayout
-                android:id="@+id/myCardSlot01"
+                android:id="@+id/myHandSlot01"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
                 android:layout_weight="1"
@@ -192,7 +212,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/myCardSlot02"
+                android:id="@+id/myHandSlot02"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
                 android:layout_weight="1"
@@ -201,7 +221,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/myCardSlot03"
+                android:id="@+id/myHandSlot03"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
                 android:layout_weight="1"
@@ -210,7 +230,7 @@
             </RelativeLayout>
 
             <ImageView
-                android:id="@+id/deck"
+                android:id="@+id/myDeckSlot"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
                 android:layout_marginRight="3dp"
@@ -284,7 +304,27 @@
                 android:layout_margin="3dp"
                 android:background="@null"
                 android:src="@drawable/mana_empty" />
+            
         </LinearLayout>
+        <ImageView
+            android:id="@+id/myGraveIcon"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/myManaSlotArea"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="22dp"
+            android:background="@null"
+            android:src="@drawable/grave" />
+                
+        <ImageView
+            android:id="@+id/myDeckIcon"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/myManaSlotArea"
+            android:layout_marginLeft="265dp"
+            android:layout_marginTop="22dp"
+            android:background="@null"
+            android:src="@drawable/deck" />
 
         <LinearLayout
             android:id="@+id/myBattleSlotArea"

@@ -1,9 +1,13 @@
 package com.fantasycard.app;
 
 public class AppValues {
-	public final static int CARD_MANA = 1;
-	public final static int CARD_CREATURE = 2;
-	public final static int CARD_ITEM = 3;
+	public final static int CARD_KIND_MANA = 1;
+	public final static int CARD_KIND_CREATURE = 2;
+	public final static int CARD_KIND_ITEM = 3;
+	
+	public final static int CARD_MATERIAL_FIRE = 0;
+	public final static int CARD_MATERIAL_WATER = 1;
+	public final static int CARD_MATERIAL_FOREST = 2;
 	
 	public final static int BATTLE_SLOT_1 = 11;
 	public final static int BATTLE_SLOT_2 = 12;

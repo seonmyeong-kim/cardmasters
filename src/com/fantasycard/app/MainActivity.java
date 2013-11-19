@@ -1,5 +1,6 @@
 package com.fantasycard.app;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import com.fantasycard.app.R;
@@ -34,7 +35,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-	
 	private MyCardSlotViewGroup mySlotView;
 	private DeckManager mPlayerDeckManager;
 	private DeckManager mEnemyDeckManager;
@@ -75,9 +75,11 @@ public class MainActivity extends Activity {
 	private TextView mtxtEnemyDeckCnt;
 	
 	private int mTurn;
-	private int mPlayerMana;
+	private int[] mPlayerMana = new int[3];
+	private ArrayList<CardInfo> mPlayerGrave = new ArrayList<CardInfo>();
 	
-	private int mEnermyMana;
+	private int[] mEnermyMana = new int[3];
+	private ArrayList<CardInfo> mEnemyGrave = new ArrayList<CardInfo>();
 	
 	private int mDeviceHeightDp;
 	
@@ -103,9 +105,9 @@ public class MainActivity extends Activity {
 				
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
 		
-		mHandSlotFrame[0] = (RelativeLayout) findViewById(R.id.myCardSlot01);
-		mHandSlotFrame[1] = (RelativeLayout) findViewById(R.id.myCardSlot02);
-		mHandSlotFrame[2] = (RelativeLayout) findViewById(R.id.myCardSlot03);
+		mHandSlotFrame[0] = (RelativeLayout) findViewById(R.id.myHandSlot01);
+		mHandSlotFrame[1] = (RelativeLayout) findViewById(R.id.myHandSlot02);
+		mHandSlotFrame[2] = (RelativeLayout) findViewById(R.id.myHandSlot03);
 		
 		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.myBattleSlot01);
 		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.myBattleSlot02);
@@ -146,7 +148,7 @@ public class MainActivity extends Activity {
 		mySlotView.addView(mtxtPlayerManaCnt);
         
 		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtPlayerManaCnt.getLayoutParams();
-		mtxtPlayerManaCnt.setLayoutParams(UILayoutParams.wrapRect(manaparams, new Rect(10, mDeviceHeightDp-25, 10, 35)));
+		mtxtPlayerManaCnt.setLayoutParams(UILayoutParams.wrapRect(manaparams, new Rect(40, mDeviceHeightDp-130, 10, 35)));
 		
 		///LifeCount初期化
 		mtxtPlayerDeckCnt = new TextView(this);
@@ -154,7 +156,7 @@ public class MainActivity extends Activity {
         mySlotView.addView(mtxtPlayerDeckCnt);
         
 		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtPlayerDeckCnt.getLayoutParams();
-		mtxtPlayerDeckCnt.setLayoutParams(UILayoutParams.wrapRect(lifeparams, new Rect(130, mDeviceHeightDp-25, 10, 35)));
+		mtxtPlayerDeckCnt.setLayoutParams(UILayoutParams.wrapRect(lifeparams, new Rect(290, mDeviceHeightDp-130, 10, 35)));
 		
 		///EnermyManaCount初期化
 		mtxtEnemyManaCnt = new TextView(this);
@@ -162,7 +164,7 @@ public class MainActivity extends Activity {
 		mySlotView.addView(mtxtEnemyManaCnt);
         
 		RelativeLayout.LayoutParams enermy_manaparams = (RelativeLayout.LayoutParams) mtxtEnemyManaCnt.getLayoutParams();
-		mtxtEnemyManaCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_manaparams, new Rect(10, 5, 10, 35)));
+		mtxtEnemyManaCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_manaparams, new Rect(40, 32, 10, 35)));
 		
 		///EnermyLifeCount初期化
 		mtxtEnemyDeckCnt = new TextView(this);
@@ -170,7 +172,7 @@ public class MainActivity extends Activity {
         mySlotView.addView(mtxtEnemyDeckCnt);
         
 		RelativeLayout.LayoutParams enermy_lifeparams = (RelativeLayout.LayoutParams) mtxtEnemyDeckCnt.getLayoutParams();
-		mtxtEnemyDeckCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_lifeparams, new Rect(130, 5, 10, 35)));
+		mtxtEnemyDeckCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_lifeparams, new Rect(290, 32, 10, 35)));
 		
 		mCardViewList.put(mMyHandSlotCardView[0], mMyHandSlot[0]);
 		mCardViewList.put(mMyHandSlotCardView[1], mMyHandSlot[1]);
@@ -183,19 +185,17 @@ public class MainActivity extends Activity {
 		dropArea.setOnDragListener(new CardDragListener(this, dropArea));
 		
 		mTurn = 0;
-		mPlayerMana = 0;
-		mEnermyMana = 0;
 		
 		updateState();
 	}
 	
 	public void updateState() {
 		mtxtTurnCnt.setText("Turn : " + mTurn);
-		mtxtPlayerManaCnt.setText("Mana : " + mPlayerMana);
-		mtxtPlayerDeckCnt.setText("Deck : " + mPlayerDeckManager.getDeckSize());
+		mtxtPlayerManaCnt.setText(String.valueOf(mPlayerGrave.size()));
+		mtxtPlayerDeckCnt.setText(String.valueOf(mPlayerDeckManager.getDeckSize()));
 		
-		mtxtEnemyManaCnt.setText("EnermyMana : " + mEnermyMana);
-		mtxtEnemyDeckCnt.setText("EnemyDeck : " + mEnemyDeckManager.getDeckSize());
+		mtxtEnemyManaCnt.setText(String.valueOf(mEnemyGrave.size()));
+		mtxtEnemyDeckCnt.setText(String.valueOf(mEnemyDeckManager.getDeckSize()));
 	}
 	
 	public CardInfo getCardInfoFromSelectHandSlot() {
@@ -236,7 +236,7 @@ public class MainActivity extends Activity {
 			boolean isManaCardExist = false;
 			
 			for(int i=0;i<3;i++){
-				if(mMyHandSlot[i].card_category == AppValues.CARD_MANA){
+				if(mMyHandSlot[i].card_category == AppValues.CARD_KIND_MANA){
 					isManaCardExist = true;
 					break;
 				}
@@ -330,7 +330,7 @@ public class MainActivity extends Activity {
 		    	targetView.setVisibility(View.GONE);
 		    	cardEffectAnimiationView.setBackgroundColor(Color.TRANSPARENT);
 		    	setMana(selectedCardInfo.material, emptyManaSlot);
-				mPlayerMana++;
+				mPlayerMana[selectedCardInfo.material]++;
 				updateState();
 		    }
 		}, duration); 
@@ -352,13 +352,13 @@ public class MainActivity extends Activity {
 	
 	public void setManaAnimation(int material){
 		switch (material) {
-		case 0:
+		case AppValues.CARD_MATERIAL_FIRE:
 			cardEffectAnimiationView.setBackgroundResource(R.anim.fire);
 			break;
-		case 1:
+		case AppValues.CARD_MATERIAL_WATER:
 			cardEffectAnimiationView.setBackgroundResource(R.anim.water);
 			break;
-		case 2:
+		case AppValues.CARD_MATERIAL_FOREST:
 			cardEffectAnimiationView.setBackgroundResource(R.anim.forest);
 			break;
 		}
