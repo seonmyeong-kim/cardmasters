@@ -7,6 +7,7 @@ import com.fantasycard.app.R;
 import com.fantasycard.cardinfo.CardInfo;
 import com.fantasycard.ui.CardDragListener;
 import com.fantasycard.ui.CardTouchListener;
+import com.fantasycard.ui.GraveDragListener;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -51,6 +52,7 @@ public class MainActivity extends Activity {
 	
 	public RelativeLayout[] mHandSlotFrame = new RelativeLayout[3];
 	public RelativeLayout[] mBattleSlotFrame = new RelativeLayout[3];
+	public RelativeLayout mMyGraveSlotArea;
 	public RelativeLayout mManaFrame;
 	public RelativeLayout effectArea;
 	
@@ -65,7 +67,7 @@ public class MainActivity extends Activity {
 	
 	public RelativeLayout[] mEnermyBattleSlotFrame = new RelativeLayout[3];
 	
-	public LinearLayout dropArea;
+	public LinearLayout mMyBattleSlotArea;
 	
 	private TextView mtxtTurnCnt;
 	private TextView mtxtPlayerManaCnt;
@@ -101,7 +103,7 @@ public class MainActivity extends Activity {
 		setDensity();
 		appOnAttachedToWindow();
 		
-		dropArea = (LinearLayout) findViewById(R.id.myBattleSlotArea); 
+		mMyBattleSlotArea = (LinearLayout) findViewById(R.id.myBattleSlotArea); 
 				
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
 		
@@ -112,6 +114,8 @@ public class MainActivity extends Activity {
 		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.myBattleSlot01);
 		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.myBattleSlot02);
 		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.myBattleSlot03);
+		
+		mMyGraveSlotArea = (RelativeLayout) findViewById(R.id.myGraveSlot);
 		
 		mManaFrame = (RelativeLayout) findViewById(R.id.cardSlotMana);
 		effectArea = (RelativeLayout) findViewById(R.id.effectArea);
@@ -182,7 +186,8 @@ public class MainActivity extends Activity {
 		mMyHandSlotCardView[1].setOnTouchListener(new CardTouchListener(this));
 		mMyHandSlotCardView[2].setOnTouchListener(new CardTouchListener(this));
 		
-		dropArea.setOnDragListener(new CardDragListener(this, dropArea));
+		mMyBattleSlotArea.setOnDragListener(new CardDragListener(this, mMyBattleSlotArea));
+		mMyGraveSlotArea.setOnDragListener(new GraveDragListener(this, mMyGraveSlotArea));
 		
 		mTurn = 0;
 		
@@ -196,6 +201,10 @@ public class MainActivity extends Activity {
 		
 		mtxtEnemyManaCnt.setText(String.valueOf(mEnemyGrave.size()));
 		mtxtEnemyDeckCnt.setText(String.valueOf(mEnemyDeckManager.getDeckSize()));
+	}
+	
+	public CardInfo getCardInfoFromSelectBattleSlot() {
+		return mMyBattleSlot[mSelectSlotId - AppValues.BATTLE_SLOT_1];
 	}
 	
 	public CardInfo getCardInfoFromSelectHandSlot() {
@@ -278,6 +287,14 @@ public class MainActivity extends Activity {
 			getCardViewFromSlotId(mSelectSlotId).setVisibility(View.VISIBLE);
 		}
 		Log.d("Premo","moveHandToBattleSlot() END");
+	}
+
+	public void moveBattleToGraveSlot(int fromBattleSlotNum) {
+		Log.d("Premo","moveBattleToGraveSlot() ENTRY");
+	}
+	
+	public void moveHandToGraveSlot(int fromHandSlotNum) {
+		Log.d("Premo","moveHandToGraveSlot() ENTRY");
 	}
 	
 	public int getEmptyManaSlot(){

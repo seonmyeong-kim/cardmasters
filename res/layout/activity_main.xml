@@ -192,15 +192,15 @@
             android:layout_marginBottom="5dp"
             android:orientation="horizontal" >
 
-            <ImageView
+            <RelativeLayout
                 android:id="@+id/myGraveSlot"
                 android:layout_width="0dp"
                 android:layout_height="95dp"
+                android:layout_marginLeft="-32dp"
                 android:layout_marginRight="3dp"
-                android:layout_weight="0.5"
-                android:background="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/grave_card" />
+                android:layout_weight="1"
+                android:background="@drawable/frame" >
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/myHandSlot01"
