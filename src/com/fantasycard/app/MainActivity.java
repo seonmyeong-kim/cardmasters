@@ -36,8 +36,8 @@ public class MainActivity extends Activity {
 
 	
 	private MyCardSlotViewGroup mySlotView;
-	private DeckManager mDeckManager;
-	private DeckManager mEnermyDeckManager;
+	private DeckManager mPlayerDeckManager;
+	private DeckManager mEnemyDeckManager;
 	
 	public static CardInfo[] mMyHandSlot = new CardInfo[3];
 	public static CardView[] mMyHandSlotCardView = new CardView[3];
@@ -58,10 +58,10 @@ public class MainActivity extends Activity {
 	
 	public static Hashtable<CardView, CardInfo> mCardViewList = new Hashtable<CardView, CardInfo>();
 	
-	public static CardInfo[] mEnermyHandSlot = new CardInfo[3];
+	public static CardInfo[] mEnemyHandSlot = new CardInfo[3];
 	
-	public static CardInfo[] mEnermyBattleSlot = new CardInfo[3];
-	public static CardInfo[] mEnermyBattleSlotView = new CardInfo[3];
+	public static CardInfo[] mEnemyBattleSlot = new CardInfo[3];
+	public static CardInfo[] mEnemyBattleSlotView = new CardInfo[3];
 	
 	public RelativeLayout[] mEnermyBattleSlotFrame = new RelativeLayout[3];
 	
@@ -69,17 +69,15 @@ public class MainActivity extends Activity {
 	
 	private TextView mtxtTurnCnt;
 	private TextView mtxtPlayerManaCnt;
-	private TextView mtxtPlayerLifeCnt;
+	private TextView mtxtPlayerDeckCnt;
 	
-	private TextView mtxtEnermyManaCnt;
-	private TextView mtxtEnermyLifeCnt;
+	private TextView mtxtEnemyManaCnt;
+	private TextView mtxtEnemyDeckCnt;
 	
 	private int mTurn;
 	private int mPlayerMana;
-	private int mPlayerLife;
 	
 	private int mEnermyMana;
-	private int mEnermyLife;
 	
 	private int mDeviceHeightDp;
 	
@@ -101,41 +99,42 @@ public class MainActivity extends Activity {
 		setDensity();
 		appOnAttachedToWindow();
 		
-		dropArea = (LinearLayout) findViewById(R.id.drop_area); 
+		dropArea = (LinearLayout) findViewById(R.id.myBattleSlotArea); 
 				
 		mySlotView = (MyCardSlotViewGroup)findViewById(R.id.myslotview);
 		
-		mHandSlotFrame[0] = (RelativeLayout) findViewById(R.id.mycardslot01);
-		mHandSlotFrame[1] = (RelativeLayout) findViewById(R.id.mycardslot02);
-		mHandSlotFrame[2] = (RelativeLayout) findViewById(R.id.mycardslot03);
+		mHandSlotFrame[0] = (RelativeLayout) findViewById(R.id.myCardSlot01);
+		mHandSlotFrame[1] = (RelativeLayout) findViewById(R.id.myCardSlot02);
+		mHandSlotFrame[2] = (RelativeLayout) findViewById(R.id.myCardSlot03);
 		
-		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.cardslot01);
-		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.cardslot02);
-		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.cardslot03);
+		mBattleSlotFrame[0] = (RelativeLayout) findViewById(R.id.myBattleSlot01);
+		mBattleSlotFrame[1] = (RelativeLayout) findViewById(R.id.myBattleSlot02);
+		mBattleSlotFrame[2] = (RelativeLayout) findViewById(R.id.myBattleSlot03);
 		
-		mManaFrame = (RelativeLayout) findViewById(R.id.cardslot_mana);
-		effectArea = (RelativeLayout) findViewById(R.id.effect_area);
+		mManaFrame = (RelativeLayout) findViewById(R.id.cardSlotMana);
+		effectArea = (RelativeLayout) findViewById(R.id.effectArea);
 		
-		cardEffectAnimiationView = (ImageView) findViewById(R.id.card_effect_animation);
+		cardEffectAnimiationView = (ImageView) findViewById(R.id.cardEffectAnimation);
 		
-		mMyManaSlotView[0] = (ImageView) findViewById(R.id.manaslot01);
-		mMyManaSlotView[1] = (ImageView) findViewById(R.id.manaslot02);
-		mMyManaSlotView[2] = (ImageView) findViewById(R.id.manaslot03);
-		mMyManaSlotView[3] = (ImageView) findViewById(R.id.manaslot04);
-		mMyManaSlotView[4] = (ImageView) findViewById(R.id.manaslot05);
-		mMyManaSlotView[5] = (ImageView) findViewById(R.id.manaslot06);
+		mMyManaSlotView[0] = (ImageView) findViewById(R.id.myManaSlot01);
+		mMyManaSlotView[1] = (ImageView) findViewById(R.id.myManaSlot02);
+		mMyManaSlotView[2] = (ImageView) findViewById(R.id.myManaSlot03);
+		mMyManaSlotView[3] = (ImageView) findViewById(R.id.myManaSlot04);
+		mMyManaSlotView[4] = (ImageView) findViewById(R.id.myManaSlot05);
+		mMyManaSlotView[5] = (ImageView) findViewById(R.id.myManaSlot06);
 		
-		mTurn = 0;
-		mPlayerMana = 0;
-		mPlayerLife = 15;
+		mPlayerDeckManager = new DeckManager();
+		mPlayerDeckManager.init();
 		
-		mEnermyMana = 0;
-		mEnermyLife = 15;
+		mEnemyDeckManager = new DeckManager();
+		mEnemyDeckManager.init();
+		
+		firstDrawCard();
+		firstDrawEnermyCard();
 		
 		///TurnCount初期化
 		mtxtTurnCnt = new TextView(this);
 		mtxtTurnCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtTurnCnt.setText("Turn : " + mTurn);
         mySlotView.addView(mtxtTurnCnt);
         
 		RelativeLayout.LayoutParams turnparams = (RelativeLayout.LayoutParams) mtxtTurnCnt.getLayoutParams();
@@ -144,47 +143,34 @@ public class MainActivity extends Activity {
 		///ManaCount初期化
 		mtxtPlayerManaCnt = new TextView(this);
 		mtxtPlayerManaCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtPlayerManaCnt.setText("Mana : " + mPlayerMana);
 		mySlotView.addView(mtxtPlayerManaCnt);
         
 		RelativeLayout.LayoutParams manaparams = (RelativeLayout.LayoutParams) mtxtPlayerManaCnt.getLayoutParams();
 		mtxtPlayerManaCnt.setLayoutParams(UILayoutParams.wrapRect(manaparams, new Rect(10, mDeviceHeightDp-25, 10, 35)));
 		
 		///LifeCount初期化
-		mtxtPlayerLifeCnt = new TextView(this);
-		mtxtPlayerLifeCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtPlayerLifeCnt.setText("Life : " + mPlayerLife);
-        mySlotView.addView(mtxtPlayerLifeCnt);
+		mtxtPlayerDeckCnt = new TextView(this);
+		mtxtPlayerDeckCnt.setTextColor(Color.rgb(246, 196, 5));
+        mySlotView.addView(mtxtPlayerDeckCnt);
         
-		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtPlayerLifeCnt.getLayoutParams();
-		mtxtPlayerLifeCnt.setLayoutParams(UILayoutParams.wrapRect(lifeparams, new Rect(130, mDeviceHeightDp-25, 10, 35)));
+		RelativeLayout.LayoutParams lifeparams = (RelativeLayout.LayoutParams) mtxtPlayerDeckCnt.getLayoutParams();
+		mtxtPlayerDeckCnt.setLayoutParams(UILayoutParams.wrapRect(lifeparams, new Rect(130, mDeviceHeightDp-25, 10, 35)));
 		
 		///EnermyManaCount初期化
-		mtxtEnermyManaCnt = new TextView(this);
-		mtxtEnermyManaCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtEnermyManaCnt.setText("EnermyMana : " + mEnermyMana);
-		mySlotView.addView(mtxtEnermyManaCnt);
+		mtxtEnemyManaCnt = new TextView(this);
+		mtxtEnemyManaCnt.setTextColor(Color.rgb(246, 196, 5));
+		mySlotView.addView(mtxtEnemyManaCnt);
         
-		RelativeLayout.LayoutParams enermy_manaparams = (RelativeLayout.LayoutParams) mtxtEnermyManaCnt.getLayoutParams();
-		mtxtEnermyManaCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_manaparams, new Rect(10, 5, 10, 35)));
+		RelativeLayout.LayoutParams enermy_manaparams = (RelativeLayout.LayoutParams) mtxtEnemyManaCnt.getLayoutParams();
+		mtxtEnemyManaCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_manaparams, new Rect(10, 5, 10, 35)));
 		
 		///EnermyLifeCount初期化
-		mtxtEnermyLifeCnt = new TextView(this);
-		mtxtEnermyLifeCnt.setTextColor(Color.rgb(246, 196, 5));
-		mtxtEnermyLifeCnt.setText("EnermyLife : " + mEnermyLife);
-        mySlotView.addView(mtxtEnermyLifeCnt);
+		mtxtEnemyDeckCnt = new TextView(this);
+		mtxtEnemyDeckCnt.setTextColor(Color.rgb(246, 196, 5));
+        mySlotView.addView(mtxtEnemyDeckCnt);
         
-		RelativeLayout.LayoutParams enermy_lifeparams = (RelativeLayout.LayoutParams) mtxtEnermyLifeCnt.getLayoutParams();
-		mtxtEnermyLifeCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_lifeparams, new Rect(130, 5, 10, 35)));
-        
-		mDeckManager = new DeckManager();
-		mDeckManager.init();
-		
-		mEnermyDeckManager = new DeckManager();
-		mEnermyDeckManager.init();
-		
-		firstDrawCard();
-		firstDrawEnermyCard();
+		RelativeLayout.LayoutParams enermy_lifeparams = (RelativeLayout.LayoutParams) mtxtEnemyDeckCnt.getLayoutParams();
+		mtxtEnemyDeckCnt.setLayoutParams(UILayoutParams.wrapRect(enermy_lifeparams, new Rect(130, 5, 10, 35)));
 		
 		mCardViewList.put(mMyHandSlotCardView[0], mMyHandSlot[0]);
 		mCardViewList.put(mMyHandSlotCardView[1], mMyHandSlot[1]);
@@ -195,6 +181,21 @@ public class MainActivity extends Activity {
 		mMyHandSlotCardView[2].setOnTouchListener(new CardTouchListener(this));
 		
 		dropArea.setOnDragListener(new CardDragListener(this, dropArea));
+		
+		mTurn = 0;
+		mPlayerMana = 0;
+		mEnermyMana = 0;
+		
+		updateState();
+	}
+	
+	public void updateState() {
+		mtxtTurnCnt.setText("Turn : " + mTurn);
+		mtxtPlayerManaCnt.setText("Mana : " + mPlayerMana);
+		mtxtPlayerDeckCnt.setText("Deck : " + mPlayerDeckManager.getDeckSize());
+		
+		mtxtEnemyManaCnt.setText("EnermyMana : " + mEnermyMana);
+		mtxtEnemyDeckCnt.setText("EnemyDeck : " + mEnemyDeckManager.getDeckSize());
 	}
 	
 	public CardInfo getCardInfoFromSelectHandSlot() {
@@ -216,8 +217,8 @@ public class MainActivity extends Activity {
 	
 	private void firstDrawEnermyCard() {
 		for(int i=0;i<3;i++){
-			if(mEnermyHandSlot[i] == null){
-				mEnermyHandSlot[i] = mEnermyDeckManager.getCardFromDeck();
+			if(mEnemyHandSlot[i] == null){
+				mEnemyHandSlot[i] = mEnemyDeckManager.getCardFromDeck();
 			}
 		}
 	}
@@ -226,7 +227,7 @@ public class MainActivity extends Activity {
 		while(true){
 			for(int i=0;i<3;i++){
 				if(mMyHandSlot[i] == null){
-					mMyHandSlot[i] = mDeckManager.getCardFromDeck();
+					mMyHandSlot[i] = mPlayerDeckManager.getCardFromDeck();
 					mMyHandSlotCardView[i] = drawCardImgMyHand(i, mMyHandSlot[i]);
 					mMyHandSlotCardView[i].mCardSlotId = AppValues.HAND_SLOT_1 + i;
 				}
@@ -245,9 +246,9 @@ public class MainActivity extends Activity {
 				break;
 			} else {
 				for(int i=0;i<3;i++) {
-					mDeckManager.putCardToDeck(mMyHandSlot[i]);
+					mPlayerDeckManager.putCardToDeck(mMyHandSlot[i]);
 				}
-				mDeckManager.suffleDeck();
+				mPlayerDeckManager.suffleDeck();
 			}
 		}
 	}
@@ -382,6 +383,19 @@ public class MainActivity extends Activity {
 	}
 	
 	public void moveBattleToBattleSlot(int fromBattleSlotNum,int targetBattleSlotNum){
+		final View targetView = mMyBattleSlotView[targetBattleSlotNum];
+		final View fromView = mMyBattleSlotView[fromBattleSlotNum];
+		
+		if(mMyBattleSlot[targetBattleSlotNum] == null || mMyBattleSlotView[targetBattleSlotNum] == null) {
+			fromView.post(new Runnable(){
+				@Override
+				public void run() {
+					fromView.setVisibility(View.VISIBLE);
+				}
+		    });
+		    return;
+		}
+		
 		CardInfo tempinfo = mMyBattleSlot[targetBattleSlotNum];
 		CardView tempview = mMyBattleSlotView[targetBattleSlotNum];
 		mBattleSlotFrame[targetBattleSlotNum].removeView(mMyBattleSlotView[targetBattleSlotNum]);
@@ -392,20 +406,21 @@ public class MainActivity extends Activity {
 				
 		Log.d("Premo", "moveBattleToBattleSlot() addImgViewToMyBattleSlot targetBattleSlotNum = " + targetBattleSlotNum);
 		mySlotView.addImgViewToMyBattleSlot(targetBattleSlotNum, mMyBattleSlotView[targetBattleSlotNum]);
-	    final View targetView = mMyBattleSlotView[targetBattleSlotNum];
+	    
 	    targetView.post(new Runnable(){
 			@Override
 			public void run() {
 				targetView.setVisibility(View.VISIBLE);
 			}
 	    });
+	    
 	    mMyBattleSlotView[targetBattleSlotNum].mCardSlotId = AppValues.BATTLE_SLOT_1 + targetBattleSlotNum;
 
 	    mMyBattleSlot[fromBattleSlotNum] = tempinfo;
 	    mMyBattleSlotView[fromBattleSlotNum] = tempview;
 	    Log.d("Premo", "moveBattleToBattleSlot() addImgViewToMyBattleSlot fromBattleSlotNum = " + fromBattleSlotNum);
 		mySlotView.addImgViewToMyBattleSlot(fromBattleSlotNum, mMyBattleSlotView[fromBattleSlotNum]);
-	    final View fromView = mMyBattleSlotView[fromBattleSlotNum];
+	    
 	    fromView.post(new Runnable(){
 			@Override
 			public void run() {

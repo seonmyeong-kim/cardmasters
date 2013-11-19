@@ -155,4 +155,8 @@ public class DeckManager {
 		
 		return library;
 	}
+	
+	public int getDeckSize() {
+		return mDeck.size();
+	}
 }

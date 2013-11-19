@@ -84,28 +84,26 @@ public class CardDragListener implements OnDragListener {
 					mActivity.mBattleSlotFrame[slotNum].clearAnimation();	
 				}
 				
-					if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
-						mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
-						int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
-						if(selectbattleslotnum == slotNum) {
-							(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
-							return true;
-						}
-						mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
+				if(mActivity.mSelectSlotId >= AppValues.BATTLE_SLOT_1 &&
+					mActivity.mSelectSlotId <= AppValues.BATTLE_SLOT_3) {
+					int selectbattleslotnum = mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId);
+					if(selectbattleslotnum == slotNum) {
+						(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
+						return true;
 					}
-					else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&
-						    mActivity.mSelectSlotId <= AppValues.HAND_SLOT_3) {
-						CardInfo selectedCardInfo = mActivity.getCardInfoFromSelectHandSlot();
-						if (selectedCardInfo.card_category == 1) {
-							mActivity.moveHandToManaSlot(mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId));
-						}else {
-							mActivity.moveHandToEmptyBattleSlot(slotNum);
-						}
+					mActivity.moveBattleToBattleSlot(selectbattleslotnum, slotNum);
+				}
+				else if(mActivity.mSelectSlotId >= AppValues.HAND_SLOT_1 &&
+					    mActivity.mSelectSlotId <= AppValues.HAND_SLOT_3) {
+					CardInfo selectedCardInfo = mActivity.getCardInfoFromSelectHandSlot();
+					if (selectedCardInfo.card_category == 1) {
+						mActivity.moveHandToManaSlot(mActivity.getCardSlotNumFromSlotId(mActivity.mSelectSlotId));
+					}else {
+						mActivity.moveHandToEmptyBattleSlot(slotNum);
 					}
-				
+				}
 			}else {
 				(mActivity.getCardViewFromSlotId(mActivity.mSelectSlotId)).setVisibility(View.VISIBLE);
-
 			}
 			slotNum = -1;
 			break;
